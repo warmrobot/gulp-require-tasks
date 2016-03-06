@@ -20,7 +20,7 @@ multiple individual files.
 
 ### Install library with *npm*
 
-`npm i --save gulp-require-tasks`
+`npm i --save-dev gulp-require-tasks`
 
 
 ## Usage
@@ -47,7 +47,7 @@ gulpRequireTasks({
 ## Options
 
 | Property     | Default Value     | Description
-|-----------------------------------------------------------------------------------------
+| ------------ | ----------------- | --------------------------------------------------------
 | path         | `./tasks/`        | Path to directory from which to load your tasks
 | separator    | `:`               | Task name separator, your tasks would be named, e.g. `foo:bar:baz` for `./tasks/foo/bar/baz.js`
 | arguments    | `[]`              | Additional arguments to pass to your task function
