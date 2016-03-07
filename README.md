@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/gulp-require-tasks.svg)](http://badge.fury.io/js/gulp-require-tasks)
 
 
-This small and clever module allows you to load *Gulp* tasks from the
+This convenient module allows you to load *Gulp* tasks from the
 multiple individual files.
 
 
@@ -14,6 +14,7 @@ multiple individual files.
 - Easily integrates into the `gulpfile.js` without breaking your existing tasks
 - Gulp instance and task callback are automatically passed to your task function
 - Very flexible: almost all aspects of the module is configurable
+- Each task is stored in it's own local node module to completely separate concerns
 
 
 ## Installation
