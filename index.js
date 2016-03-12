@@ -15,9 +15,6 @@ var path = require('path');
 var requireDirectory = require('require-directory');
 var _ = require('lodash');
 
-const PATH_SEPARATOR_REGEXP = new RegExp(path.sep, 'g');
-
-
 function gulpRequireTasks (options) {
 
   options = _.extend({}, DEFAULT_OPTIONS, options);
@@ -78,7 +75,7 @@ function gulpRequireTasks (options) {
     function taskNameFromPath (modulePath) {
       var relativePath = path.relative(options.path, modulePath);
       return removeExtension(relativePath)
-        .replace(PATH_SEPARATOR_REGEXP, options.separator)
+        .split(path.sep).join(options.separator)
       ;
     }
 
