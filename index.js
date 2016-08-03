@@ -3,7 +3,7 @@ module.exports = gulpRequireTasks;
 
 
 const DEFAULT_OPTIONS = {
-  path: __dirname + '/tasks',
+  path: process.cwd() + '/gulp-tasks',
   separator: ':',
   arguments: [],
   passGulp: true,

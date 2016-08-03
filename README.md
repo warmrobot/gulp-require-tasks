@@ -10,7 +10,7 @@ multiple individual files.
 ## Features
 
 - Loads individual task files recursively from the specified directory
-- The name of the task is inferred from the directory structure, e.g. `build:styles:clean`
+- The name of the task is inferred from the directory structure, e.g. `styles:preprocess:clean`
 - Easily integrates into the `gulpfile.js` without breaking your existing tasks
 - Gulp instance and task callback are automatically passed to your task function
 - Very flexible: almost all aspects of the module is configurable
@@ -27,25 +27,48 @@ multiple individual files.
 ## Usage
 
 Create a directory alongside your `gulpfile.js` to store your individual
-task modules, e.g. `./tasks`. Place your tasks into this directory.
+task modules, e.g. `./gulp-tasks`. Place your tasks into this directory.
 One task per JavaScript file. Use sub-directories to structure your tasks.
 
 Load tasks from your `gulpfile.js`:
 
-```javascript
+```js
+
+// gulpfile.js:
 
 // Require the module.
 const gulpRequireTasks = require('gulp-require-tasks');
 
-// Call it when neccesary.
+// Invoke the module with options.
 gulpRequireTasks({
   
   // Specify path to your tasks directory.
-  path: __dirname + '/tasks'
+  path: process.cwd() + '/gulp-tasks' // This is default!
   
   // Additionally pass any options to it from the table below.
   // ...
   
+});
+
+// Or, use minimal invokation possible with all options set to defaults.
+gulpRequireTasks();
+
+```
+
+
+### Minimal Gulp file possible
+
+```js
+// gulpfile.js:
+require('gulp-require-tasks')();
+```
+
+Or with options:
+
+```js
+// gulpfile.js:
+require('gulp-require-tasks')({
+  separator: '.'
 });
 ```
 
@@ -54,7 +77,7 @@ gulpRequireTasks({
 
 | Property     | Default Value     | Description
 | ------------ | ----------------- | --------------------------------------------------------
-| path         | ``                | Path to directory from which to load your tasks
+| path         | `'./gulp-tasks'`  | Path to directory from which to load your tasks modules
 | separator    | `:`               | Task name separator, your tasks would be named, e.g. `foo:bar:baz` for `./tasks/foo/bar/baz.js`
 | arguments    | `[]`              | Additional arguments to pass to your task function
 | passGulp     | `true`            | Whether to pass Gulp instance as a first argument to your task function
@@ -64,7 +87,7 @@ gulpRequireTasks({
 
 ## Task module format
 
-Consider you have the following task module: `tasks/styles/build.js`.
+Consider you have the following task module: `gulp-tasks/styles/build.js`.
 
 
 ### Module as a function
@@ -76,7 +99,7 @@ You could configure the library to pass additional arguments as well.
 
 ```javascript
 
-// tasks/styles/build.js:
+// gulp-tasks/styles/build.js:
 
 const compass = require('compass');
 
@@ -95,6 +118,9 @@ Also, you could define your task module as an object.
 This will allow you to provide additional configuration.
 
 ```javascript
+
+// gulp-tasks/styles/build.js:
+
 const compass = require('compass');
 
 module.exports = {
