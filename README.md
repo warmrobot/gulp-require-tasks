@@ -41,13 +41,34 @@ const gulpRequireTasks = require('gulp-require-tasks');
 
 // Invoke the module with options.
 gulpRequireTasks({
-  
+
   // Specify path to your tasks directory.
   path: process.cwd() + '/gulp-tasks' // This is default!
-  
+
   // Additionally pass any options to it from the table below.
   // ...
-  
+
+});
+
+// Or, use minimal invokation possible with all options set to defaults.
+gulpRequireTasks();
+
+```
+
+
+### Minimal Gulp file possible
+
+```js
+// gulpfile.js:
+require('gulp-require-tasks')();
+```
+
+Or with options:
+
+```js
+// gulpfile.js:
+require('gulp-require-tasks')({
+  separator: '.'
 });
 
 // Or, use minimal invokation possible with all options set to defaults.
@@ -78,6 +99,8 @@ require('gulp-require-tasks')({
 | Property     | Default Value     | Description
 | ------------ | ----------------- | --------------------------------------------------------
 | path         | `'./gulp-tasks'`  | Path to directory from which to load your tasks modules
+| include      | `null`            | Whitelisting (either via RegExp or function) allows you to specify that only certain files be loaded.
+| exclude      | `null`            | Blacklisting (either via RegExp or function) allows you to specify that all but certain files should be loaded.
 | separator    | `:`               | Task name separator, your tasks would be named, e.g. `foo:bar:baz` for `./tasks/foo/bar/baz.js`
 | arguments    | `[]`              | Additional arguments to pass to your task function
 | passGulp     | `true`            | Whether to pass Gulp instance as a first argument to your task function
@@ -142,6 +165,46 @@ task function executed by Gulp directly. That way, additional arguments
 will not be passed to it. This feature is useful when using,
 e.g. [gulp-sequence][gulp-sequence] plugin or for [synchronous tasks](#synchronous-tasks).
 
+
+#### Dependencies in Gulp 4.0
+In Gulp 4 three argument syntax for `gulp.task` was [removed](https://github.com/gulpjs/gulp/blob/4.0/CHANGELOG.md)
+Now you can choose to execute dependant tasks in series or parallel, using new `gulp.series` or `gulp.parallel` methods.
+This is how parallel execution defined.
+
+```javascript
+
+// gulp-tasks/styles/build.js:
+
+module.exports = {
+  dep: {
+    parallel: ['styles:clean', 'icons:build']
+  }
+};
+```
+
+And this is for series.
+
+```javascript
+
+// gulp-tasks/styles/build.js:
+
+module.exports = {
+  dep: {
+    series: ['styles:clean', 'icons:build']
+  }
+};
+```
+
+Or just set deps as an array that is equal to series syntax
+
+```javascript
+
+// gulp-tasks/styles/build.js:
+
+module.exports = {
+  dep: ['styles:clean', 'icons:build']
+};
+```
 
 ### Task function return value
 
