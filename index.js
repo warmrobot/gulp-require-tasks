@@ -11,15 +11,16 @@ const DEFAULT_OPTIONS = {
   gulp: null
 };
 
-var path = require('path');
-var requireDirectory = require('require-directory');
-var _ = require('lodash');
+const path = require('path');
+const requireDirectory = require('require-directory');
+const _ = require('lodash');
+
 
 function gulpRequireTasks (options) {
 
   options = _.extend({}, DEFAULT_OPTIONS, options);
 
-  var gulp = options.gulp || require('gulp');
+  const gulp = options.gulp || require('gulp');
 
   // Recursively visiting all modules in the specified directory
   // and registering Gulp tasks.
@@ -73,7 +74,7 @@ function gulpRequireTasks (options) {
      * @returns {string}
      */
     function taskNameFromPath (modulePath) {
-      var relativePath = path.relative(options.path, modulePath);
+      const relativePath = path.relative(options.path, modulePath);
       return removeExtension(relativePath)
         .split(path.sep).join(options.separator)
       ;
