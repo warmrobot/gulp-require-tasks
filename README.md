@@ -132,7 +132,7 @@ To make sure, that task is finished correctly you must either:
 
 If you are using synchronous tasks, i.e. tasks which execute synchronously
 without returning streams, promises or accepting callbacks, you will have
-to use one of the workaround specified below:
+to use one of the workarounds specified below:
 
 1). The simplest method is to use `nativeTask` functionality, here's the
 example of the module with native task synchronous function:
