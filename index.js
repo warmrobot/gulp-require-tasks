@@ -13,12 +13,11 @@ const DEFAULT_OPTIONS = {
 
 const path = require('path');
 const requireDirectory = require('require-directory');
-const _ = require('lodash');
 
 
 function gulpRequireTasks (options) {
 
-  options = _.extend({}, DEFAULT_OPTIONS, options);
+  options = Object.assign({}, DEFAULT_OPTIONS, options);
 
   const gulp = options.gulp || require('gulp');
 
@@ -55,7 +54,7 @@ function gulpRequireTasks (options) {
      */
     function taskFunction (callback) {
       if ('function' === typeof module.fn) {
-        var arguments = _.clone(options.arguments);
+        var arguments = Array.from(options.arguments);
         if (options.passGulp) {
           arguments.unshift(gulp);
         }
