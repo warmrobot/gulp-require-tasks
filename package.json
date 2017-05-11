@@ -25,7 +25,6 @@
   "homepage": "https://github.com/betsol/gulp-require-tasks#readme",
   "dependencies": {
     "gulp": "^3.9.1",
-    "lodash": "^4.6.1",
     "require-directory": "^2.1.1"
   }
 }
