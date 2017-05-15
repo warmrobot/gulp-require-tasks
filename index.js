@@ -75,14 +75,14 @@ function gulpRequireTasks (options) {
      */
     function taskNameFromPath (modulePath) {
       const relativePath = path.relative(options.path, modulePath);
-      const pathInfos = path.parse(relativePath);
-      var taskNameParts = []
+      const pathInfo = path.parse(relativePath);
+      const taskNameParts = [];
 
-      if (pathInfos.dir) {
-        taskNameParts.push(...pathInfos.dir.split(path.sep));
+      if (pathInfo.dir) {
+        taskNameParts.push(...pathInfo.dir.split(path.sep));
       }
-      if ('index' != pathInfos.name) {
-        taskNameParts.push(pathInfos.name);
+      if ('index' !== pathInfo.name) {
+        taskNameParts.push(pathInfo.name);
       }
 
       return taskNameParts.join(options.separator);
