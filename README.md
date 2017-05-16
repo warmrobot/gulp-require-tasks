@@ -19,6 +19,10 @@ multiple individual files.
 
 ## Installation
 
+### Install library with *yarn*
+
+`yarn add -D gulp-require-tasks`
+
 ### Install library with *npm*
 
 `npm i -D gulp-require-tasks`
@@ -50,7 +54,7 @@ gulpRequireTasks({
   
 });
 
-// Or, use minimal invokation possible with all options set to defaults.
+// Or, use minimal invocation possible with all options set to defaults.
 gulpRequireTasks();
 
 ```
@@ -124,7 +128,7 @@ This will allow you to provide additional configuration.
 const compass = require('compass');
 
 module.exports = {
-  dep: ['styles:clean', 'icons:build'],
+  deps: ['styles:clean', 'icons:build'],
   fn: function (gulp, callback) {
     return gulp.src('...')
       .pipe(compass())
@@ -135,7 +139,7 @@ module.exports = {
 ```
 
 You will have to define your task function as `fn` parameter.
-You could use `dep` parameter to define your task dependencies.
+You could use `deps` parameter to define your task dependencies.
 
 Also, you could use `nativeTask` instead of `fn` property to make your
 task function executed by Gulp directly. That way, additional arguments
@@ -152,6 +156,15 @@ To make sure, that task is finished correctly you must either:
 - Call a callback function passed to it, e.g.: `callback();`
 
 > WARNING: If your task function is synchronous — please read the section below!
+
+
+### Using root directory tasks
+
+Starting from version `1.1.0` you can place `index.js` inside of the task directories.
+The actual task, registered with Gulp will have the name of the directory itself,
+e.g.: `scripts/build/index.js` will become: `scripts:build`.
+
+The `index.js`, placed in the root of tasks directory, will be registered as a `default` task.
 
 
 ### Synchronous tasks

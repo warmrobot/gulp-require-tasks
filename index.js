@@ -2,6 +2,10 @@
 module.exports = gulpRequireTasks;
 
 
+const path = require('path');
+const requireDirectory = require('require-directory');
+
+
 const DEFAULT_OPTIONS = {
   path: process.cwd() + '/gulp-tasks',
   separator: ':',
@@ -10,9 +14,6 @@ const DEFAULT_OPTIONS = {
   passCallback: true,
   gulp: null
 };
-
-const path = require('path');
-const requireDirectory = require('require-directory');
 
 
 function gulpRequireTasks (options) {
@@ -37,11 +38,15 @@ function gulpRequireTasks (options) {
 
     module = normalizeModule(module);
 
+    const taskName = taskNameFromPath(modulePath);
+
     gulp.task(
-      taskNameFromPath(modulePath),
-      module.dep,
+      taskName,
+      // @todo: deprecate `module.dep`
+      module.deps || module.dep || [],
       module.nativeTask || taskFunction
     );
+
 
     /**
      * Wrapper around user task function.
@@ -54,7 +59,7 @@ function gulpRequireTasks (options) {
      */
     function taskFunction (callback) {
       if ('function' === typeof module.fn) {
-        var arguments = Array.from(options.arguments);
+        const arguments = Array.from(options.arguments);
         if (options.passGulp) {
           arguments.unshift(gulp);
         }
@@ -73,7 +78,14 @@ function gulpRequireTasks (options) {
      * @returns {string}
      */
     function taskNameFromPath (modulePath) {
+
       const relativePath = path.relative(options.path, modulePath);
+
+      // Registering root index.js as a default task.
+      if ('index.js' === relativePath) {
+        return 'default';
+      }
+
       const pathInfo = path.parse(relativePath);
       const taskNameParts = [];
 
@@ -85,6 +97,7 @@ function gulpRequireTasks (options) {
       }
 
       return taskNameParts.join(options.separator);
+
     }
 
   }
@@ -102,7 +115,7 @@ function normalizeModule (module) {
   if ('function' === typeof module) {
     return {
       fn: module,
-      dep: []
+      deps: []
     };
   } else {
     return module;

@@ -1,6 +1,6 @@
 {
   "name": "gulp-require-tasks",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Loads Gulp tasks from the multiple individual files",
   "main": "index.js",
   "repository": {
@@ -17,7 +17,7 @@
     "recursive",
     "load"
   ],
-  "author": "Slava Fomin <s.fomin@betsol.ru>",
+  "author": "Slava Fomin II <s.fomin@betsol.ru>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/betsol/gulp-require-tasks/issues"
