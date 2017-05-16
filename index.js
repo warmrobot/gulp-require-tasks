@@ -74,24 +74,21 @@ function gulpRequireTasks (options) {
      */
     function taskNameFromPath (modulePath) {
       const relativePath = path.relative(options.path, modulePath);
-      return removeExtension(relativePath)
-        .split(path.sep).join(options.separator)
-      ;
+      const pathInfo = path.parse(relativePath);
+      const taskNameParts = [];
+
+      if (pathInfo.dir) {
+        taskNameParts.push(...pathInfo.dir.split(path.sep));
+      }
+      if ('index' !== pathInfo.name) {
+        taskNameParts.push(pathInfo.name);
+      }
+
+      return taskNameParts.join(options.separator);
     }
 
   }
 
-}
-
-/**
- * Removes extension from the specified path.
- *
- * @param {string} path
- *
- * @returns {string}
- */
-function removeExtension (path) {
-  return path.substr(0, path.lastIndexOf('.'))
 }
 
 /**
