@@ -4,7 +4,7 @@
 
 
 This convenient module allows you to load *Gulp* tasks from the
-multiple individual files.
+multiple individual files and directory hierarchy.
 
 
 ## Features
@@ -22,10 +22,6 @@ multiple individual files.
 ### Install library with *yarn*
 
 `yarn add -D gulp-require-tasks`
-
-### Install library with *npm*
-
-`npm i -D gulp-require-tasks`
 
 
 ## Usage
@@ -231,7 +227,7 @@ Thank you!
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Slava Fomin II, BETTER SOLUTIONS
+Copyright (c) 2016-2017 Slava Fomin II, BETTER SOLUTIONS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

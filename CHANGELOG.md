@@ -1,5 +1,13 @@
 # gulp-require-tasks changelog
 
+Below is the list of most important changes and versions.
+
+## Version 1.1.1
+(31 May 2017)
+
+- Fixed backward compatibility with older LTS Node versions
+
+
 ## Version 1.1.0
 (16 May 2017)
 
