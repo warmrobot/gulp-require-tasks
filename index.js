@@ -90,7 +90,7 @@ function gulpRequireTasks (options) {
       const taskNameParts = [];
 
       if (pathInfo.dir) {
-        taskNameParts.push(...pathInfo.dir.split(path.sep));
+        taskNameParts.push.apply(taskNameParts, pathInfo.dir.split(path.sep));
       }
       if ('index' !== pathInfo.name) {
         taskNameParts.push(pathInfo.name);
