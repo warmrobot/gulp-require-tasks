@@ -59,14 +59,14 @@ function gulpRequireTasks (options) {
      */
     function taskFunction (callback) {
       if ('function' === typeof module.fn) {
-        const arguments = Array.from(options.arguments);
+        const args = Array.from(options.arguments);
         if (options.passGulp) {
-          arguments.unshift(gulp);
+          args.unshift(gulp);
         }
         if (options.passCallback) {
-          arguments.push(callback);
+          args.push(callback);
         }
-        return module.fn.apply(module, arguments);
+        return module.fn.apply(module, args);
       } else {
         callback();
       }
