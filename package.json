@@ -1,6 +1,6 @@
 {
   "name": "gulp-require-tasks",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Loads Gulp tasks from directories and individual files",
   "main": "index.js",
   "repository": {
