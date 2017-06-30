@@ -9,7 +9,6 @@ const requireDirectory = require('require-directory');
 const DEFAULT_OPTIONS = {
   path: process.cwd() + '/gulp-tasks',
   separator: ':',
-  arguments: [],
   passGulp: true,
   passCallback: true,
   gulp: null
@@ -28,6 +27,7 @@ function gulpRequireTasks (options) {
     visit: moduleVisitor
   });
 
+
   /**
    * Registers the specified module. Task name is deducted from the specified path.
    *
@@ -40,9 +40,16 @@ function gulpRequireTasks (options) {
 
     const taskName = taskNameFromPath(modulePath);
 
+    if (module.dep) {
+      console.warn(
+        'Usage of "module.dep" property is deprecated and will be removed in next major version. ' +
+        'Use "deps" instead.'
+      );
+    }
+
     gulp.task(
       taskName,
-      // @todo: deprecate `module.dep`
+      // @todo: deprecate `module.dep` in 2.0.0
       module.deps || module.dep || [],
       module.nativeTask || taskFunction
     );
@@ -51,25 +58,41 @@ function gulpRequireTasks (options) {
     /**
      * Wrapper around user task function.
      * It passes special arguments to the user function according
-     * to the this module configuration.
+     * to the configuration.
      *
      * @param {function} callback
      *
      * @returns {*}
      */
     function taskFunction (callback) {
-      if ('function' === typeof module.fn) {
-        const args = Array.from(options.arguments);
-        if (options.passGulp) {
-          args.unshift(gulp);
-        }
-        if (options.passCallback) {
-          args.push(callback);
-        }
-        return module.fn.apply(module, args);
-      } else {
+
+      if ('function' !== typeof module.fn) {
         callback();
+        return;
       }
+
+      let args = [];
+
+      // @deprecated
+      // @todo: remove this in 2.0.0
+      if (options.arguments) {
+        console.warn(
+          'Usage of "arguments" option is deprecated and will be removed in next major version. ' +
+          'Use globals or module imports instead.'
+        );
+        args = Array.from(options.arguments);
+      }
+
+      if (options.passGulp) {
+        args.unshift(gulp);
+      }
+
+      if (options.passCallback) {
+        args.push(callback);
+      }
+
+      return module.fn.apply(module, args);
+
     }
 
     /**

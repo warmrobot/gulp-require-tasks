@@ -2,6 +2,13 @@
 
 Below is the list of most important changes and versions.
 
+## Version 1.2.0
+(30 July 2017)
+
+- Usage of `arguments` option is deprecated, use globals or imports instead
+- Usage of `module.dep` property is deprecated, use `module.deps` instead
+
+
 ## Version 1.1.1
 (31 May 2017)
 

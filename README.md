@@ -79,7 +79,6 @@ require('gulp-require-tasks')({
 | ------------ | ----------------- | --------------------------------------------------------
 | path         | `'./gulp-tasks'`  | Path to directory from which to load your tasks modules
 | separator    | `:`               | Task name separator, your tasks would be named, e.g. `foo:bar:baz` for `./tasks/foo/bar/baz.js`
-| arguments    | `[]`              | Additional arguments to pass to your task function
 | passGulp     | `true`            | Whether to pass Gulp instance as a first argument to your task function
 | passCallback | `true`            | Whether to pass task callback function as a last argument to your task function
 | gulp         | `require('gulp')` | You could pass your existing Gulp instance if you have one, or it will be required automatically
@@ -161,6 +160,30 @@ The actual task, registered with Gulp will have the name of the directory itself
 e.g.: `scripts/build/index.js` will become: `scripts:build`.
 
 The `index.js`, placed in the root of tasks directory, will be registered as a `default` task.
+
+
+### Passing data to the task function
+
+If you need to pass something to the task function from your gulpfile you can use globals.
+
+Define your custom properties on the `global` object:
+
+```js
+// gulpfile.js
+
+global.SOURCES_BASE_PATH = __dirname + '/src';
+```
+
+And then use it in your task module:
+
+```js
+// gulp/tasks/styles/build.js
+module.exports = gulp => 
+  gulp.src(global.SOURCES_BASE_PATH + '/styles/*.scss')
+    .pipe(compass())
+    .pipe(gulp.dest('…'))
+;
+```
 
 
 ### Synchronous tasks
