@@ -4,7 +4,7 @@
 
 
 This convenient module allows you to load *Gulp* tasks from the
-multiple individual files.
+multiple individual files and directory hierarchy.
 
 
 ## Features
@@ -19,9 +19,9 @@ multiple individual files.
 
 ## Installation
 
-### Install library with *npm*
+### Install library with *yarn*
 
-`npm i -D gulp-require-tasks`
+`yarn add -D gulp-require-tasks`
 
 
 ## Usage
@@ -71,7 +71,7 @@ require('gulp-require-tasks')({
   separator: '.'
 });
 
-// Or, use minimal invokation possible with all options set to defaults.
+// Or, use minimal invocation possible with all options set to defaults.
 gulpRequireTasks();
 
 ```
@@ -102,7 +102,6 @@ require('gulp-require-tasks')({
 | include      | `null`            | Whitelisting (either via RegExp or function) allows you to specify that only certain files be loaded.
 | exclude      | `null`            | Blacklisting (either via RegExp or function) allows you to specify that all but certain files should be loaded.
 | separator    | `:`               | Task name separator, your tasks would be named, e.g. `foo:bar:baz` for `./tasks/foo/bar/baz.js`
-| arguments    | `[]`              | Additional arguments to pass to your task function
 | passGulp     | `true`            | Whether to pass Gulp instance as a first argument to your task function
 | passCallback | `true`            | Whether to pass task callback function as a last argument to your task function
 | gulp         | `require('gulp')` | You could pass your existing Gulp instance if you have one, or it will be required automatically
@@ -147,7 +146,7 @@ This will allow you to provide additional configuration.
 const compass = require('compass');
 
 module.exports = {
-  dep: ['styles:clean', 'icons:build'],
+  deps: ['styles:clean', 'icons:build'],
   fn: function (gulp, callback) {
     return gulp.src('...')
       .pipe(compass())
@@ -158,7 +157,7 @@ module.exports = {
 ```
 
 You will have to define your task function as `fn` parameter.
-You could use `dep` parameter to define your task dependencies.
+You could use `deps` parameter to define your task dependencies.
 
 Also, you could use `nativeTask` instead of `fn` property to make your
 task function executed by Gulp directly. That way, additional arguments
@@ -215,6 +214,39 @@ To make sure, that task is finished correctly you must either:
 - Call a callback function passed to it, e.g.: `callback();`
 
 > WARNING: If your task function is synchronous — please read the section below!
+
+
+### Using root directory tasks
+
+Starting from version `1.1.0` you can place `index.js` inside of the task directories.
+The actual task, registered with Gulp will have the name of the directory itself,
+e.g.: `scripts/build/index.js` will become: `scripts:build`.
+
+The `index.js`, placed in the root of tasks directory, will be registered as a `default` task.
+
+
+### Passing data to the task function
+
+If you need to pass something to the task function from your gulpfile you can use globals.
+
+Define your custom properties on the `global` object:
+
+```js
+// gulpfile.js
+
+global.SOURCES_BASE_PATH = __dirname + '/src';
+```
+
+And then use it in your task module:
+
+```js
+// gulp/tasks/styles/build.js
+module.exports = gulp => 
+  gulp.src(global.SOURCES_BASE_PATH + '/styles/*.scss')
+    .pipe(compass())
+    .pipe(gulp.dest('…'))
+;
+```
 
 
 ### Synchronous tasks
@@ -281,7 +313,7 @@ Thank you!
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Slava Fomin II, BETTER SOLUTIONS
+Copyright (c) 2016-2017 Slava Fomin II, BETTER SOLUTIONS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
