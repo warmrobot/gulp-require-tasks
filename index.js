@@ -42,7 +42,6 @@ function gulpRequireTasks (options) {
   function moduleVisitor (module, modulePath) {
     var args = [taskNameFromPath(modulePath)];
     var module = normalizeModule(module, gulp4);
-    var batchName;
 
     if (module.dep) {
       console.warn(
@@ -55,13 +54,15 @@ function gulpRequireTasks (options) {
 
     if (gulp4) {
       if (deps) {
-        // Can get dep: [] which is equal to dep: { series: [] }
-        // or dep: { parallel: [] }
-        if (_.isPlainObject(deps)) {
-          batchName = deps.parallel ? 'parallel' : 'series';
-          args.push(gulp[batchName].apply(gulp, deps[batchName]));
-        } else {
+        // deps can be object or array
+        // [] => deps: { series: [] }
+        // or deps: { parallel: [] } || deps: { series: [] }
+        if (Array.isArray(deps)) {
           args.push(gulp.series.apply(gulp, deps));
+        } else {
+          var batchName = deps.parallel ? 'parallel' : 'series';
+
+          args.push(gulp[batchName].apply(gulp, deps[batchName]));
         }
       } else {
         args.push(module.nativeTask || taskFunction);

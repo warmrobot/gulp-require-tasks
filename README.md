@@ -175,7 +175,7 @@ This is how parallel execution defined.
 // gulp-tasks/styles/build.js:
 
 module.exports = {
-  dep: {
+  deps: {
     parallel: ['styles:clean', 'icons:build']
   }
 };
@@ -188,7 +188,7 @@ And this is for series.
 // gulp-tasks/styles/build.js:
 
 module.exports = {
-  dep: {
+  deps: {
     series: ['styles:clean', 'icons:build']
   }
 };
@@ -201,7 +201,7 @@ Or just set deps as an array that is equal to series syntax
 // gulp-tasks/styles/build.js:
 
 module.exports = {
-  dep: ['styles:clean', 'icons:build']
+  deps: ['styles:clean', 'icons:build']
 };
 ```
 
@@ -241,7 +241,7 @@ And then use it in your task module:
 
 ```js
 // gulp/tasks/styles/build.js
-module.exports = gulp => 
+module.exports = gulp =>
   gulp.src(global.SOURCES_BASE_PATH + '/styles/*.scss')
     .pipe(compass())
     .pipe(gulp.dest('…'))
